@@ -1002,6 +1002,15 @@ status_t Surface::lock(
         if (err) {
             return err;
         }
+        
+#ifdef SAMSUNG_GRALLOC_EXTERNAL_USECASES
+        if(!(mReqUsage & GRALLOC_USAGE_EXTERNAL_DISP) &&
+                !(mReqUsage & GRALLOC_USAGE_EXTERNAL_ONLY) &&
+                !(mReqUsage & GRALLOC_USAGE_EXTERNAL_BLOCK) &&
+                !(mReqUsage & GRALLOC_USAGE_EXTERNAL_FLEXIBLE) &&
+                !(mReqUsage & GRALLOC_USAGE_EXTERNAL_VIRTUALFB) &&
+                !(mReqUsage & GRALLOC_USAGE_INTERNAL_ONLY))
+#endif
         // we're intending to do software rendering from this point
         setUsage(GRALLOC_USAGE_SW_READ_OFTEN | GRALLOC_USAGE_SW_WRITE_OFTEN);
     }
